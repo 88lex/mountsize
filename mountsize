@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#  #!/bin/bash
+
+> listmountsizes
+
+# Set mounts manually using a list of some/all of your remotes in `mounts` below. 
+# Or remove the hash in front of the readarray line and the script will cycle 
+# through all remotes configured in rclone.
+
+mounts=(
+my_tv:
+my_movies:
+my_ebooks:
+)
+
+#readarray mounts < <( rclone listremotes )
+for i in ${mounts[@]}; do
+  echo; echo For $i | tee -a listmountsizes
+  rclone size $i --fast-list | tee -a listmountsizes
+  sleep 1s
+done
